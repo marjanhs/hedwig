@@ -14,6 +14,7 @@ class TrainerFactory(object):
         'Robust04': RelevanceTransferTrainer,
         'Robust05': RelevanceTransferTrainer,
         'Robust45': RelevanceTransferTrainer,
+        'Personality': ClassificationTrainer
     }
 
     @staticmethod

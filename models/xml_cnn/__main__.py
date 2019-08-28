@@ -13,6 +13,7 @@ from datasets.aapd import AAPD
 from datasets.imdb import IMDB
 from datasets.reuters import Reuters
 from datasets.yelp2014 import Yelp2014
+from datasets.personality import Personality
 from models.xml_cnn.args import get_args
 from models.xml_cnn.model import XmlCNN
 
@@ -59,10 +60,10 @@ def evaluate_dataset(split_name, dataset_cls, model, embedding, loader, batch_si
 if __name__ == '__main__':
     # Set default configuration in args.py
     args = get_args()
-
     # Set random seed for reproducibility
     torch.manual_seed(args.seed)
     torch.backends.cudnn.deterministic = True
+
     if not args.cuda:
         args.gpu = -1
     if torch.cuda.is_available() and args.cuda:
@@ -79,7 +80,8 @@ if __name__ == '__main__':
         'Reuters': Reuters,
         'AAPD': AAPD,
         'IMDB': IMDB,
-        'Yelp2014': Yelp2014
+        'Yelp2014': Yelp2014,
+        'Personality': Personality
     }
 
     if args.dataset not in dataset_map:

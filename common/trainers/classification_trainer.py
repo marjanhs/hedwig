@@ -89,17 +89,20 @@ class ClassificationTrainer(Trainer):
             self.train_epoch(epoch)
 
             # Evaluate performance on validation set
-            dev_acc, dev_precision, dev_recall, dev_f1, dev_loss = self.dev_evaluator.get_scores()[0]
+            dev_acc, dev_precision, dev_recall, dev_f1_micro, dev_loss, dev_hamming_loss, dev_jaccard_score,\
+            dev_f1_macro, dev_auc_micro = self.dev_evaluator.get_scores()[0]
 
             # Print validation results
             print('\n' + dev_header)
             print(self.dev_log_template.format(time.time() - self.start, epoch, self.iterations, epoch, epochs,
-                                               dev_acc, dev_precision, dev_recall, dev_f1, dev_loss))
+                                               dev_acc, dev_precision, dev_recall, dev_f1_micro, dev_loss,
+                                               dev_hamming_loss, dev_jaccard_score,\
+            dev_f1_macro, dev_auc_micro))
 
             # Update validation results
-            if dev_f1 > self.best_dev_f1:
+            if dev_f1_micro > self.best_dev_f1:
                 self.iters_not_improved = 0
-                self.best_dev_f1 = dev_f1
+                self.best_dev_f1 = dev_f1_micro
                 torch.save(self.model, self.snapshot_path)
             else:
                 self.iters_not_improved += 1
